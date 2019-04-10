@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "es2015",
+		"moduleResolution": "node",
+		"newLine": "LF",
+		"outDir": "./lib/",
+		"sourceMap": true,
+		"declaration": true,
+		"jsx": "preserve",
+		"lib": [
+			"es2017",
+			"es2016.array.include",
+			"es2015",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"strict": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true
+	},
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		".git",
+		"node_modules"
+	]
+}

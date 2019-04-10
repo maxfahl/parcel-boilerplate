@@ -1,0 +1,1 @@
+Place static files here, for example non modularized javascripts here or static images that will neve change.

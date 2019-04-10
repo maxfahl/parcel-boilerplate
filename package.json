@@ -1,0 +1,35 @@
+{
+	"directories": {
+		"lib": "lib"
+	},
+	"author": "Max Fahl",
+	"license": "MIT",
+	"private": true,
+	"files": [
+		"bin/",
+		"lib/",
+		"src/"
+	],
+	"name": "Parcel Bootstrapper",
+	"version": "1.0.0",
+	"description": "...",
+	"main": "lib/index.js",
+	"scripts": {
+		"prestart": "rm -rf OUTDIR && mkdir OUTDIR && cp -R ./src/static OUTDIR/static",
+		"start": "parcel serve --out-dir OUTDIR --no-hmr src/index.html",
+		"prebuild": "rm -rf OUTDIR && mkdir OUTDIR && cp -R ./src/static OUTDIR/static",
+		"build": "cross-env NODE_ENV=production parcel build --no-source-maps --out-dir OUTDIR --public-url . src/index.html",
+		"watch": "parcel watch src/index.html",
+		"predeploy": "npm run build"
+	},
+	"devDependencies": {
+		"cross-env": "^5.2.0",
+		"gh-pages": "^1.2.0",
+		"node-sass": "^4.7.2",
+		"parcel-bundler": "^1.9.7",
+		"typescript": "^2.9.2"
+	},
+	"dependencies": {
+		"normalize-scss": "^7.0.1"
+	}
+}
