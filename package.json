@@ -9,7 +9,7 @@
 		"lib/",
 		"src/"
 	],
-	"name": "Parcel Bootstrapper",
+	"name": "Parcel Boilerplate",
 	"version": "1.0.0",
 	"description": "A simple boilerplate for parcel based web apps using TypeScript and Sass.",
 	"main": "lib/index.js",
