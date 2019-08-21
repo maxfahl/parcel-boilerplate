@@ -1,0 +1,65 @@
+@import "~normalize-scss"
+
+@import "partials/variables"
+@import "partials/functions"
+// @import "partials/fonts"
+
+@include normalize()
+
+*
+    box-sizing: border-box
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
+    outline: none !important
+
+html, body, #wrapper
+    height: 100%
+    width: 100%
+
+html
+    font-family: $font-family
+    font-weight: $font-weight-bold
+    font-style: normal
+    font-size: $font-size-md
+    letter-spacing: 0.025em
+    line-height: $font-line-height-base
+    color: #E8EDDF
+
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    -webkit-text-stroke-width: .7px
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.1)
+
+#wrapper
+    padding: pixel-to-vw(60px)
+    display: flex
+    flex-direction: column
+    > .inner
+        flex: 1
+        display: flex
+        flex-direction: column
+        > .tabs
+            flex: .75 0 auto
+            display: flex
+            flex-direction: column
+            > .buttons
+                height: pixel-to-vw(120px)
+                display: flex
+                > .button
+                    width: 50%
+                    display: flex
+                    align-items: center
+                    justify-content: center
+                    text-align: center
+                    cursor: pointer
+                    border-bottom: pixel-to-vw(4px) solid #242423
+                    transition: border-bottom 200ms ease-out;
+                    &.active
+                        border-bottom: pixel-to-vw(4px) solid #F5CB5C
+            > .content
+                flex: 1 0 auto
+                background-color: #333533
+        > .controls
+            flex: .25 0 auto

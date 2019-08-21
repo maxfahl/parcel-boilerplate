@@ -4,18 +4,30 @@
 		<meta charset="UTF-8">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<title>PhotoBooth</title>
-		<link rel="stylesheet" href="sass/main.scss">
+		<title>Fileselector</title>
+		<link rel="stylesheet" href="sass/main.sass">
 	</head>
 	<body>
-		<!-- <script>
-			function loadScript(path) {
-				let script = document.createElement('script');
-				script.src = path;
-				document.body.appendChild(script);
-			}
-			loadScript("./static/lib.js");
-		</script> -->
+		<div id="wrapper">
+			<div class="inner">
+				<div class="tabs">
+					<div class="buttons">
+						<div class="button" data-type="presentations">
+							Presentations
+						</div>
+						<div class="button" data-type="movies">
+							Movies
+						</div>
+					</div>
+					<div class="content">
+
+					</div>
+				</div>
+				<div class="controls">
+
+				</div>
+			</div>
+		</div>
 		<script src="./index.ts"></script>
 	</body>
 </html>

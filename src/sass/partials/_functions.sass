@@ -1,0 +1,19 @@
+/*!
+ / Copyright (c) PIXILAB Technologies AB, Sweden (http://pixilab.se). All Rights Reserved.
+ / Created 2017 by Max Fahl.
+ /
+
+@function strip-unit($number)
+    @if type-of($number) == 'number' and not unitless($number)
+        @return $number / ($number * 0 + 1)
+
+    @return $number
+
+// Calculates a percentage of 1px in relation to the width of a 1080p
+// monitor, that is 1 / 1920.
+@function pixel-to-decimal-horizontal($px)
+    $pixels: strip-unit($px)
+    @return $pixels * (1/960*100)
+
+@function pixel-to-vw($px)
+    @return pixel-to-decimal-horizontal($px) + vw
