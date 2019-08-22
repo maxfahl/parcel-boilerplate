@@ -1,34 +1,99 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<title>Fileselector</title>
-		<link rel="stylesheet" href="sass/main.sass">
-	</head>
-	<body>
-		<div id="wrapper">
-			<div class="inner">
-				<div class="tabs">
-					<div class="buttons">
-						<div class="button" data-type="presentations">
-							Presentations
-						</div>
-						<div class="button" data-type="movies">
-							Movies
-						</div>
+<head>
+	<meta charset="UTF-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>Fileselector</title>
+	<link rel="stylesheet" href="sass/main.sass">
+</head>
+<body>
+<div id="wrapper">
+	<div class="inner">
+		<div class="tabs">
+			<div class="buttons">
+				<div class="button" data-type="presentations">
+					Presentations
+				</div>
+				<div class="button" data-type="movies">
+					Movies
+				</div>
+			</div>
+			<div class="content">
+				<div class="list presentations"></div>
+				<div class="list movies"></div>
+			</div>
+		</div>
+		<div class="controls">
+			<div class="pane presentations">
+				<div class="row">
+					<div class="control-button stepper previous">
+						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+							 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							 viewBox="0 0 300.003 300.003" style="enable-background:new 0 0 300.003 300.003;"
+							 xml:space="preserve">
+							<g>
+								<g>
+									<path d="M150,0C67.159,0,0.001,67.159,0.001,150c0,82.838,67.157,150.003,149.997,150.003S300.002,232.838,300.002,150
+										C300.002,67.159,232.839,0,150,0z M189.226,218.202c-2.736,2.734-6.321,4.101-9.902,4.101c-3.582,0-7.169-1.367-9.902-4.103
+										l-56.295-56.292c-0.838-0.537-1.639-1.154-2.368-1.886c-2.796-2.799-4.145-6.479-4.077-10.144
+										c-0.065-3.667,1.281-7.35,4.077-10.146c0.734-0.731,1.53-1.349,2.368-1.886l56.043-56.043c5.47-5.465,14.34-5.467,19.808,0.003
+										c5.47,5.467,5.47,14.335,0,19.808l-48.265,48.265l48.514,48.516C194.695,203.864,194.695,212.732,189.226,218.202z"/>
+								</g>
+							</g>
+						</svg>
 					</div>
-					<div class="content">
-						<div class="list presentations"></div>
-						<div class="list movies"></div>
+					<div class="control-button stepper next">
+						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							 viewBox="0 0 300 300" style="enable-background:new 0 0 300 300;" xml:space="preserve">
+							<g>
+								<g>
+									<path d="M150,0C67.157,0,0,67.157,0,150c0,82.841,67.157,150,150,150s150-67.159,150-150C300,67.157,232.843,0,150,0z
+										 M195.708,160.159c-0.731,0.731-1.533,1.349-2.368,1.886l-56.295,56.295c-2.734,2.736-6.318,4.103-9.902,4.103
+										s-7.166-1.367-9.902-4.103c-5.47-5.47-5.47-14.34,0-19.808l48.509-48.516l-48.265-48.265c-5.47-5.473-5.47-14.34,0-19.808
+										c5.47-5.47,14.338-5.467,19.808-0.003l56.046,56.043c0.835,0.537,1.637,1.154,2.365,1.886c2.796,2.796,4.145,6.479,4.082,10.146
+										C199.852,153.68,198.506,157.361,195.708,160.159z"/>
+								</g>
+							</g>
+						</svg>
 					</div>
 				</div>
-				<div class="controls">
-
+			</div>
+			<div class="pane movies">
+				<div class="row">
+					<div class="control-button play-pause">
+						<div class="play visible">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								 viewBox="0 0 300 300" style="enable-background:new 0 0 300 300;" xml:space="preserve">
+								<g>
+									<g>
+										<path d="M150,0C67.157,0,0,67.162,0,150c0,82.841,67.157,150,150,150s150-67.159,150-150C300,67.162,232.843,0,150,0z
+											 M205.846,158.266l-86.557,49.971c-1.32,0.765-2.799,1.144-4.272,1.144c-1.473,0-2.949-0.379-4.274-1.144
+											c-2.64-1.525-4.269-4.347-4.269-7.402V100.89c0-3.053,1.631-5.88,4.269-7.402c2.648-1.528,5.906-1.528,8.551,0l86.557,49.974
+											c2.645,1.53,4.274,4.352,4.269,7.402C210.12,153.916,208.494,156.741,205.846,158.266z"/>
+									</g>
+								</g>
+							</svg>
+						</div>
+						<div class="pause">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								 viewBox="0 0 300.003 300.003" style="enable-background:new 0 0 300.003 300.003;" xml:space="preserve">
+								<g>
+									<g>
+										<path d="M150.001,0c-82.838,0-150,67.159-150,150c0,82.838,67.162,150.003,150,150.003c82.843,0,150-67.165,150-150.003
+											C300.001,67.159,232.846,0,150.001,0z M134.41,194.538c0,9.498-7.7,17.198-17.198,17.198s-17.198-7.7-17.198-17.198V105.46
+											c0-9.498,7.7-17.198,17.198-17.198s17.198,7.7,17.198,17.198V194.538z M198.955,194.538c0,9.498-7.701,17.198-17.198,17.198
+											c-9.498,0-17.198-7.7-17.198-17.198V105.46c0-9.498,7.7-17.198,17.198-17.198s17.198,7.7,17.198,17.198V194.538z"/>
+									</g>
+								</g>
+							</svg>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<script src="./index.ts"></script>
-	</body>
+	</div>
+</div>
+<script src="./index.ts"></script>
+</body>
 </html>

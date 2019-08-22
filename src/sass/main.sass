@@ -89,7 +89,53 @@ html
                         transition: background-color 200ms ease-out
                         &.selected
                             background-color: lighten(#333533, 10)
-                            //color: #242423
-                            //border-bottom: pixel-to-vw(2px) solid #F5CB5C
         > .controls
+            margin-top: pixel-to-vw(60px)
             flex: .25 0 auto
+            position: relative
+            > .pane
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 100%
+                display: flex
+                flex-direction: column
+                align-items: center
+                justify-content: center
+                opacity: 0
+                pointer-events: none
+                transition: opacity 200ms ease-out
+                > .row
+                    display: inline-flex
+                    > .control-button
+                        position: relative
+                        margin: 0 pixel-to-vw(30px)
+                        cursor: pointer
+                        > div, svg
+                            height: pixel-to-vw(120px)
+                            width: pixel-to-vw(120px)
+                        svg
+                            path
+                                fill: #F5CB5C
+                //&.presentations
+                &.movies
+                    > .row
+                        > .play-pause
+                            height: pixel-to-vw(120px)
+                            width: pixel-to-vw(120px)
+                            > div
+                                position: absolute
+                                top: 0
+                                left: 0
+                                height: pixel-to-vw(120px)
+                                width: pixel-to-vw(120px)
+                                opacity: 0
+                                pointer-events: none
+                                transition: opacity 200ms ease-out
+                                &.visible
+                                    opacity: 1
+                                    pointer-events: auto
+                &.visible
+                    opacity: 1
+                    pointer-events: auto

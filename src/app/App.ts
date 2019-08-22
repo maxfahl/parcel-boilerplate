@@ -5,7 +5,7 @@ export class App {
 
 	private mTarget: string;
 	private mContainer: HTMLDivElement;
-	private mButtons: HTMLDivElement[];
+	private mTabButtons: HTMLDivElement[];
 	private mLists: HTMLDivElement[];
 	private mPubSub: PubSubPeer;
 	private mFileNameToClass: any = {
@@ -24,19 +24,19 @@ export class App {
 		this.mPubSub = new PubSubPeer();
 
 		this.mContainer = document.querySelector('#wrapper .inner');
-		this.mButtons = Array.prototype.slice.call(
+		this.mTabButtons = Array.prototype.slice.call(
 			this.mContainer.querySelectorAll<HTMLDivElement>('.tabs .buttons .button')
 		);
 		this.mLists = Array.prototype.slice.call(
 			this.mContainer.querySelectorAll<HTMLDivElement>('.tabs .content .list')
 		);
-		this.mButtons.forEach(buttonEl => {
-			buttonEl.addEventListener('click', (e) => this.onButtonClick(<HTMLDivElement>e.target));
+		this.mTabButtons.forEach(buttonEl => {
+			buttonEl.addEventListener('click', (e) => this.onTabButtonClick(<HTMLDivElement>e.target));
 		});
 
 		this.subscribe();
 
-		this.onButtonClick(this.mButtons[0]);
+		this.onTabButtonClick(this.mTabButtons[0]);
 	}
 
 	private subscribe() {
@@ -76,21 +76,27 @@ export class App {
 		);
 	}
 
-	private onButtonClick(selectedButton: HTMLDivElement): void {
-		this.mButtons.forEach(buttonEl => buttonEl.classList.remove('active'));
+	private onTabButtonClick(selectedButton: HTMLDivElement): void {
+		this.mTabButtons.forEach(buttonEl => buttonEl.classList.remove('active'));
 		this.mLists.forEach(buttonEl => buttonEl.classList.remove('visible'));
 		const list = selectedButton.dataset['type'] === 'presentations' ? this.mLists[0] : this.mLists[1];
 
 		selectedButton.classList.add('active');
 		list.classList.add('visible');
+
+		this.mContainer.querySelectorAll('.controls .pane').forEach(pane => pane.classList.remove('visible'));
+		this.mContainer.querySelector(`.controls .pane.${ selectedButton.dataset['type'] }`).classList.add('visible');
 	}
 
 	private markCurrentListItem() {
 		let className: string;
+		let inPresentations = true;
 		if (this.mCurrentFile) {
 			className = this.mFileNameToClass['presentations'][this.mCurrentFile];
-			if (!className)
+			if (!className) {
 				className = this.mFileNameToClass['movies'][this.mCurrentFile];
+				inPresentations = false;
+			}
 		}
 		let listItemToSelect = className ? this.mContainer.querySelector<HTMLDivElement>(`.tabs .content .${ className }`) : null;
 		if (this.mLastSelectedItem && this.mLastSelectedItem !== listItemToSelect)
@@ -98,6 +104,7 @@ export class App {
 		if (listItemToSelect) {
 			listItemToSelect.classList.add('selected');
 			this.mLastSelectedItem = listItemToSelect;
+			this.onTabButtonClick(inPresentations ? this.mTabButtons[0] : this.mTabButtons[1]);
 		}
 	}
 
