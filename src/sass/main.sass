@@ -17,6 +17,7 @@
 html, body, #wrapper
     height: 100%
     width: 100%
+    overflow: hidden
 
 html
     font-family: $font-family
@@ -55,11 +56,40 @@ html
                     text-align: center
                     cursor: pointer
                     border-bottom: pixel-to-vw(4px) solid #242423
-                    transition: border-bottom 200ms ease-out;
+                    transition: border-bottom 200ms ease-out
                     &.active
                         border-bottom: pixel-to-vw(4px) solid #F5CB5C
             > .content
+                position: relative
                 flex: 1 0 auto
                 background-color: #333533
+                > .list
+                    position: absolute
+                    top: 0
+                    left: 0
+                    width: 100%
+                    height: 100%
+                    opacity: 0
+                    overflow-x: hidden
+                    overflow-y: auto
+                    pointer-events: none
+                    transition: opacity 200ms ease-out
+                    &.visible
+                        opacity: 1
+                        pointer-events: auto
+                    > .list-item
+                        display: flex
+                        align-items: center
+                        padding: 0 pixel-to-vw(30px)
+                        height: pixel-to-vw(90px)
+                        background-color: transparent
+                        border-bottom: pixel-to-vw(2px) solid #242423
+                        font-size: $font-size-sm
+                        cursor: pointer
+                        transition: background-color 200ms ease-out
+                        &.selected
+                            background-color: lighten(#333533, 10)
+                            //color: #242423
+                            //border-bottom: pixel-to-vw(2px) solid #F5CB5C
         > .controls
             flex: .25 0 auto

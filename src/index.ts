@@ -1,3 +1,6 @@
 import { App } from "./app/App";
 
-const app = new App();
+
+window.setTimeout(() => {
+	(<any>window).app = new App();
+}, 200);
