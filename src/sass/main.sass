@@ -42,7 +42,7 @@ html
         display: flex
         flex-direction: column
         > .tabs
-            flex: .75 0 auto
+            flex: .85 0 auto
             display: flex
             flex-direction: column
             > .buttons
@@ -91,7 +91,7 @@ html
                             background-color: lighten(#333533, 10)
         > .controls
             margin-top: pixel-to-vw(60px)
-            flex: .25 0 auto
+            flex: .15 0 auto
             position: relative
             > .pane
                 position: absolute
@@ -111,7 +111,6 @@ html
                     > .control-button
                         position: relative
                         margin: 0 pixel-to-vw(30px)
-                        cursor: pointer
                         > div, svg
                             height: pixel-to-vw(120px)
                             width: pixel-to-vw(120px)
@@ -131,11 +130,17 @@ html
                                 height: pixel-to-vw(120px)
                                 width: pixel-to-vw(120px)
                                 opacity: 0
-                                pointer-events: none
+                                //pointer-events: none
                                 transition: opacity 200ms ease-out
                                 &.visible
                                     opacity: 1
-                                    pointer-events: auto
+                                    pointer-events: none
                 &.visible
-                    opacity: 1
-                    pointer-events: auto
+                    opacity: 0.5
+                    pointer-events: none
+                    &.enabled
+                        opacity: 1
+                        pointer-events: auto
+                        > .row
+                            > .control-button
+                                cursor: pointer
