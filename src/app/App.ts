@@ -8,7 +8,7 @@ export class App {
 	private mTabButtons: HTMLDivElement[];
 	private mLists: HTMLDivElement[];
 	private mControlPanes: HTMLDivElement[];
-	private mEnablePaneTimeout: number;
+	// private mEnablePaneTimeout: number;
 	private mPresentationStepperButtons: HTMLDivElement[];
 	private mMoviesJumpButtons: HTMLDivElement[];
 	private mMoviesPlayPauseButtons: HTMLDivElement[];
@@ -31,6 +31,7 @@ export class App {
 		this.mPubSub = new PubSubPeer();
 
 		this.mContainer = document.querySelector('#wrapper .inner');
+		this.mContainer.querySelector('.disconnected-message').innerHTML = `<p>Could not connect to ${ this.mTarget }</p>`;
 		this.mTabButtons = Array.prototype.slice.call(
 			this.mContainer.querySelectorAll<HTMLDivElement>('.tabs .buttons .button')
 		);
@@ -67,6 +68,20 @@ export class App {
 	}
 
 	private subscribe() {
+		this.mPubSub.subscribe<boolean>(
+			`Network.${ this.mTarget }.connected`,
+			{
+				dataReceived: (connected: boolean) => {
+					if (connected) {
+						this.mContainer.classList.add('connected');
+						this.mContainer.classList.remove('disconnected');
+					} else {
+						this.mContainer.classList.add('disconnected');
+						this.mContainer.classList.remove('connected');
+					}
+				}
+			}
+		);
 		this.mPubSub.subscribe<string>(
 			`Network.${ this.mTarget }.powerpointFiles`,
 			{
@@ -144,7 +159,7 @@ export class App {
 				this.setCurrentFile('');
 			this.mPubSub.set(
 				`Network.${ this.mTarget }.program`,
-				'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --disable-features=TranslateUI --app=http://10.0.1.157:9080/spot'
+				'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --disable-features=TranslateUI --autoplay-policy=no-user-gesture-required --app=http://10.0.1.157:9080/spot'
 			);
 			//--start-fullscreen
 		}
