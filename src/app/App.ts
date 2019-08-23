@@ -18,6 +18,8 @@ export class App {
 	};
 	private mLastSelectedItem: HTMLDivElement;
 	private mCurrentFile: string;
+	private mCurrentProgram: string;
+	private mFirstMarkCurrentListItem = true;
 
 	constructor() {
 		this.init();
@@ -91,7 +93,14 @@ export class App {
 				}
 			}
 		);
-
+		this.mPubSub.subscribe<string>(
+			`Network.${ this.mTarget }.program`,
+			{
+				dataReceived: (currentProgram: string) => {
+					this.mCurrentProgram = currentProgram;
+				}
+			}
+		);
 		this.mPubSub.subscribe<boolean>(
 			`Realm.Main.variable.${ this.mTarget }MoviePlaying.value`,
 			{
@@ -118,6 +127,12 @@ export class App {
 		this.mContainer.querySelector(`.controls .pane.${ wantedType }`).classList.add('visible');
 
 		if (selectedByUser && wantedType === 'blocks') {
+			this.startBlocksIfNotRunning();
+		}
+	}
+
+	private startBlocksIfNotRunning(): void {
+		if (this.mCurrentProgram.indexOf('chrome.exe') === -1) {
 			if (this.mCurrentFile)
 				this.setCurrentFile('');
 			this.mPubSub.set(`Network.${ this.mTarget }.program`, 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --disable-features=TranslateUI --app=http://10.0.1.157:9080/spot');
@@ -154,7 +169,8 @@ export class App {
 					paneToEnable.classList.add('enabled');
 				}, 2500)
 			}
-		} else {
+		} else if (this.mFirstMarkCurrentListItem) {
+			this.mFirstMarkCurrentListItem = false;
 			this.onTabButtonClick(this.mTabButtons[2]);
 		}
 	}
@@ -191,8 +207,8 @@ export class App {
 		this.mPubSub.set(`Realm.Main.variable.${ this.mTarget }MoviePlaying.value`, false);
 
 		if (this.mCurrentFile === fileName) {
-			this.setCurrentFile('');
-
+			// this.setCurrentFile('');
+			this.startBlocksIfNotRunning();
 		} else {
 			this.setCurrentFile(fileName);
 			this.resetMoviesPlayPauseButton();
