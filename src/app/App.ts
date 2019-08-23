@@ -10,6 +10,7 @@ export class App {
 	private mControlPanes: HTMLDivElement[];
 	private mEnablePaneTimeout: number;
 	private mPresentationStepperButtons: HTMLDivElement[];
+	private mMoviesJumpButtons: HTMLDivElement[];
 	private mMoviesPlayPauseButtons: HTMLDivElement[];
 	private mPubSub: PubSubPeer;
 	private mFileNameToClass: any = {
@@ -46,7 +47,13 @@ export class App {
 			this.mContainer.querySelectorAll<HTMLDivElement>('.controls .pane.presentations .stepper')
 		);
 		this.mPresentationStepperButtons.forEach(button => {
-			button.addEventListener('click', () => this.onPresentationStepButtonPress(button));
+			button.addEventListener('click', () => this.onPresentationStepButtonClick(button));
+		});
+		this.mMoviesJumpButtons = Array.prototype.slice.call(
+			this.mContainer.querySelectorAll<HTMLDivElement>('.controls .pane.movies .jump')
+		);
+		this.mMoviesJumpButtons.forEach(button => {
+			button.addEventListener('click', () => this.onMovieJumpButtonClick(button));
 		});
 		this.mMoviesPlayPauseButtons = Array.prototype.slice.call(
 			this.mContainer.querySelectorAll<HTMLDivElement>('.controls .pane.movies .play-pause .button')
@@ -135,7 +142,11 @@ export class App {
 		if (this.mCurrentProgram.indexOf('chrome.exe') === -1) {
 			if (this.mCurrentFile)
 				this.setCurrentFile('');
-			this.mPubSub.set(`Network.${ this.mTarget }.program`, 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --disable-features=TranslateUI --app=http://10.0.1.157:9080/spot');
+			this.mPubSub.set(
+				`Network.${ this.mTarget }.program`,
+				'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --disable-features=TranslateUI --app=http://10.0.1.157:9080/spot'
+			);
+			//--start-fullscreen
 		}
 	}
 
@@ -152,23 +163,23 @@ export class App {
 		let listItemToSelect = className ? this.mContainer.querySelector<HTMLDivElement>(`.tabs .content .${ className }`) : null;
 		if (this.mLastSelectedItem && this.mLastSelectedItem !== listItemToSelect)
 			this.mLastSelectedItem.classList.remove('selected');
-		if (this.mEnablePaneTimeout) {
-			window.clearTimeout(this.mEnablePaneTimeout);
-			this.mEnablePaneTimeout = undefined;
-		}
+		// if (this.mEnablePaneTimeout) {
+		// 	window.clearTimeout(this.mEnablePaneTimeout);
+		// 	this.mEnablePaneTimeout = undefined;
+		// }
 		this.mControlPanes.forEach(pane => pane.classList.remove('enabled'));
 		if (listItemToSelect) {
 			listItemToSelect.classList.add('selected');
 			this.mLastSelectedItem = listItemToSelect;
 			this.onTabButtonClick(inPresentations ? this.mTabButtons[0] : this.mTabButtons[1]);
 			const paneToEnable = inPresentations ? this.mControlPanes[0] : this.mControlPanes[1];
-			if (inPresentations) {
-				paneToEnable.classList.add('enabled');
-			} else {
-				this.mEnablePaneTimeout = window.setTimeout(() => {
-					paneToEnable.classList.add('enabled');
-				}, 2500)
-			}
+			// if (inPresentations) {
+			paneToEnable.classList.add('enabled');
+			// } else {
+			// 	this.mEnablePaneTimeout = window.setTimeout(() => {
+			// 		paneToEnable.classList.add('enabled');
+			// 	}, 2500)
+			// }
 		} else if (this.mFirstMarkCurrentListItem) {
 			this.mFirstMarkCurrentListItem = false;
 			this.onTabButtonClick(this.mTabButtons[2]);
@@ -221,15 +232,22 @@ export class App {
 		this.mPubSub.set(`Network.${ this.mTarget }.currFile`, fileName);
 	}
 
-	private onPresentationStepButtonPress(button: HTMLDivElement) {
+	private onPresentationStepButtonClick(button: HTMLDivElement) {
 		let next = button.classList.contains('next');
 		this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, next ? 'VK_RIGHT' : 'VK_LEFT');
+	}
+
+	private onMovieJumpButtonClick(button: HTMLDivElement): void {
+		let next = button.classList.contains('forward');
+		console.log('JUMP', next);
+		this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, next ? 'alt+VK_S' : 'alt+VK_A');
 	}
 
 	private onMoviesPlayPauseButtonClick(button: HTMLDivElement): void {
 		let doPause = button.classList.contains('pause');
 		this.setMoviePlatingState(doPause);
-		this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, 'control+P');
+		// this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, 'control+P'); // WMP
+		this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, 'VK_SPACE');
 	}
 
 	private setMoviePlatingState(playing: boolean): void {
