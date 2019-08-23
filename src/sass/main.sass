@@ -42,7 +42,8 @@ html
         display: flex
         flex-direction: column
         > .tabs
-            flex: .85 0 auto
+            flex: 1 0 auto
+            //flex: .85 0 auto
             display: flex
             flex-direction: column
             > .buttons
@@ -81,18 +82,19 @@ html
                         display: flex
                         align-items: center
                         padding: 0 pixel-to-vw(30px)
-                        height: pixel-to-vw(90px)
+                        height: pixel-to-vw(120px)
                         background-color: transparent
                         border-bottom: pixel-to-vw(2px) solid #242423
-                        font-size: $font-size-sm
+                        //font-size: $font-size-sm
                         cursor: pointer
                         transition: background-color 200ms ease-out
                         &.selected
                             background-color: lighten(#333533, 10)
         > .controls
-            margin-top: pixel-to-vw(60px)
-            flex: .15 0 auto
             position: relative
+            margin-top: pixel-to-vw(60px)
+            //flex: .15 0 auto
+            padding: pixel-to-vw(60px) 0
             > .pane
                 position: absolute
                 top: 0
