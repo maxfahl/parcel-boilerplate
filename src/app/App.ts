@@ -4,6 +4,7 @@ import { PubSubPeer } from "./control/PubSubPeer";
 export class App {
 
 	private mTarget: string;
+	// private mConnected: boolean = true; // Needs to start as true to not mess up auto loading of blocks on re-connect
 	private mContainer: HTMLDivElement;
 	private mTabButtons: HTMLDivElement[];
 	private mLists: HTMLDivElement[];
@@ -31,7 +32,7 @@ export class App {
 		this.mPubSub = new PubSubPeer();
 
 		this.mContainer = document.querySelector('#wrapper .inner');
-		this.mContainer.querySelector('.disconnected-message').innerHTML = `<p>Could not connect to ${ this.mTarget }</p>`;
+		// this.mContainer.querySelector('.disconnected-message').innerHTML = `<p>Could not connect to ${ this.mTarget }</p>`;
 		this.mTabButtons = Array.prototype.slice.call(
 			this.mContainer.querySelectorAll<HTMLDivElement>('.tabs .buttons .button')
 		);
@@ -79,6 +80,15 @@ export class App {
 						this.mContainer.classList.add('disconnected');
 						this.mContainer.classList.remove('connected');
 					}
+					// if (this.mConnected != connected) {
+					// 	this.mConnected = connected;
+					// 	if (this.mConnected) {
+					// 		this.onTabButtonClick(this.mTabButtons[2]);
+					// 		window.setTimeout(() => {
+					// 			this.startBlocks();
+					// 		},500);
+					// 	}
+					// }
 				}
 			}
 		);
@@ -112,6 +122,7 @@ export class App {
 				dataReceived: (currentFile: string) => {
 					this.mCurrentFile = currentFile;
 					this.markCurrentListItem();
+
 				}
 			}
 		);
@@ -135,7 +146,7 @@ export class App {
 
 	private onTabButtonClick(
 		selectedButton: HTMLDivElement,
-		selectedByUser: boolean = false
+		startBlocks: boolean = false
 	): void {
 		this.mTabButtons.forEach(buttonEl => buttonEl.classList.remove('active'));
 		this.mLists.forEach(buttonEl => buttonEl.classList.remove('visible'));
@@ -148,21 +159,24 @@ export class App {
 		this.mContainer.querySelectorAll('.controls .pane').forEach(pane => pane.classList.remove('visible'));
 		this.mContainer.querySelector(`.controls .pane.${ wantedType }`).classList.add('visible');
 
-		if (selectedByUser && wantedType === 'blocks') {
-			this.startBlocksIfNotRunning();
+		if (startBlocks && wantedType === 'blocks') {
+			this.startBlocksIfNotRunning(true);
 		}
 	}
 
-	private startBlocksIfNotRunning(): void {
-		if (this.mCurrentProgram.indexOf('chrome.exe') === -1) {
-			if (this.mCurrentFile)
+	private startBlocksIfNotRunning(force: boolean = false): void {
+		if (force || this.mCurrentProgram.indexOf('chrome.exe') === -1) {
+			if (force || this.mCurrentFile)
 				this.setCurrentFile('');
-			this.mPubSub.set(
-				`Network.${ this.mTarget }.program`,
-				'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --disable-features=TranslateUI --autoplay-policy=no-user-gesture-required --app=http://10.0.1.157:9080/spot'
-			);
-			//--start-fullscreen
+			this.startBlocks();
 		}
+	}
+
+	private startBlocks(): void {
+		this.mPubSub.set(
+			`Network.${ this.mTarget }.program`,
+			'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --disable-features=TranslateUI --autoplay-policy=no-user-gesture-required --app=http://10.0.1.157:9080/spot'
+		);
 	}
 
 	private markCurrentListItem() {
