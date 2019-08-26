@@ -13,6 +13,7 @@ export class App {
 	private mPresentationStepperButtons: HTMLDivElement[];
 	private mMoviesJumpButtons: HTMLDivElement[];
 	private mMoviesPlayPauseButtons: HTMLDivElement[];
+	private mReloadButton: HTMLDivElement;
 	private mPubSub: PubSubPeer;
 	private mFileNameToClass: any = {
 		'presentations': {},
@@ -66,6 +67,8 @@ export class App {
 		this.mMoviesPlayPauseButtons.forEach(button => {
 			button.addEventListener('click', () => this.onMoviesPlayPauseButtonClick(button));
 		});
+		this.mReloadButton = this.mContainer.querySelector<HTMLDivElement>('.tabs .content .reload-button');
+		this.mReloadButton.addEventListener('click', this.onReloadButtonClick.bind(this))
 
 		this.subscribe();
 		// this.onTabButtonClick(this.mTabButtons[0]);
@@ -298,6 +301,14 @@ export class App {
 	private resetMoviesPlayPauseButton(): void {
 		this.mMoviesPlayPauseButtons[0].classList.remove('visible');
 		this.mMoviesPlayPauseButtons[1].classList.add('visible');
+	}
+
+	private onReloadButtonClick(): void {
+		this.mPubSub.set(`Network.${ this.mTarget }.refresh`, true);
+		this.mReloadButton.classList.add('loading');
+		window.setTimeout(() => {
+			this.mReloadButton.classList.remove('loading');
+		}, 1000);
 	}
 
 	private generateListItemEl(
