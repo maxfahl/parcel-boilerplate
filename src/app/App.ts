@@ -22,7 +22,7 @@ export class App {
 	private mLastSelectedItem: HTMLDivElement;
 	private mCurrentFile: string;
 	private mCurrentProgram: string;
-	// private mFirstMarkCurrentListItem = true;
+	private mFirstMarkCurrentListItem = true;
 
 	constructor() {
 		this.init();
@@ -221,6 +221,9 @@ export class App {
 			this.mEnablePaneTimeout = window.setTimeout(() => {
 				paneToEnable.classList.add('enabled');
 			}, 1000)
+		} else if (this.mFirstMarkCurrentListItem) {
+			this.mFirstMarkCurrentListItem = false;
+			this.onTabButtonClick(this.mTabButtons[0]);
 		}
 		// else if (this.mFirstMarkCurrentListItem) {
 		// 	this.mFirstMarkCurrentListItem = false;
