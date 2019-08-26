@@ -32,12 +32,15 @@ export class App {
 		this.mPubSub = new PubSubPeer();
 
 		this.mContainer = document.querySelector('#wrapper .inner');
-		// this.mContainer.querySelector('.disconnected-message').innerHTML = `<p>Could not connect to ${ this.mTarget }</p>`;
+		// this.mContainer.querySelector('.disconnected-message').innerHTML = `<p>Lost connection to ${ this.mTarget }</p>`;
 		this.mTabButtons = Array.prototype.slice.call(
 			this.mContainer.querySelectorAll<HTMLDivElement>('.tabs .buttons .button')
 		);
 		this.mTabButtons.forEach(buttonEl => {
-			buttonEl.addEventListener('click', (e) => this.onTabButtonClick(<HTMLDivElement>e.target, true));
+			buttonEl.addEventListener(
+				'click',
+				(e) => this.onTabButtonClick(<HTMLDivElement>e.target, true)
+			);
 		});
 		this.mLists = Array.prototype.slice.call(
 			this.mContainer.querySelectorAll<HTMLDivElement>('.tabs .content .list')
@@ -65,7 +68,7 @@ export class App {
 		});
 
 		this.subscribe();
-		this.onTabButtonClick(this.mTabButtons[0]);
+		// this.onTabButtonClick(this.mTabButtons[0]);
 	}
 
 	private subscribe() {
@@ -146,7 +149,7 @@ export class App {
 
 	private onTabButtonClick(
 		selectedButton: HTMLDivElement,
-		startBlocks: boolean = false
+		userClick: boolean = false
 	): void {
 		this.mTabButtons.forEach(buttonEl => buttonEl.classList.remove('active'));
 		this.mLists.forEach(buttonEl => buttonEl.classList.remove('visible'));
@@ -159,7 +162,7 @@ export class App {
 		this.mContainer.querySelectorAll('.controls .pane').forEach(pane => pane.classList.remove('visible'));
 		this.mContainer.querySelector(`.controls .pane.${ wantedType }`).classList.add('visible');
 
-		if (startBlocks && wantedType === 'blocks') {
+		if (userClick && wantedType === 'blocks') {
 			this.startBlocksIfNotRunning(true);
 		}
 	}
@@ -173,9 +176,10 @@ export class App {
 	}
 
 	private startBlocks(): void {
+		console.log('Start blocks');
 		this.mPubSub.set(
 			`Network.${ this.mTarget }.program`,
-			'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --disable-features=TranslateUI --autoplay-policy=no-user-gesture-required --app=http://10.0.1.157:9080/spot'
+			'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --no-startup-window --disable-features=TranslateUI --autoplay-policy=no-user-gesture-required --app=http://10.0.1.157:9080/spot'
 		);
 	}
 
