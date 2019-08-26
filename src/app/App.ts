@@ -67,8 +67,12 @@ export class App {
 		this.mMoviesPlayPauseButtons.forEach(button => {
 			button.addEventListener('click', () => this.onMoviesPlayPauseButtonClick(button));
 		});
+		this.mContainer.querySelector<HTMLDivElement>(
+			'.controls .pane.movies .loop-button'
+		).addEventListener('click', this.onMoviesLoopButtonClick.bind(this));
+
 		this.mReloadButton = this.mContainer.querySelector<HTMLDivElement>('.tabs .content .reload-button');
-		this.mReloadButton.addEventListener('click', this.onReloadButtonClick.bind(this))
+		this.mReloadButton.addEventListener('click', this.onReloadButtonClick.bind(this));
 
 		this.subscribe();
 	}
@@ -285,6 +289,10 @@ export class App {
 		this.setMoviePlatingState(doPause);
 		// this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, 'control+P'); // WMP
 		this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, 'VK_SPACE');
+	}
+
+	private onMoviesLoopButtonClick(): void {
+		this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, 'VK_L');
 	}
 
 	private setMoviePlatingState(playing: boolean): void {

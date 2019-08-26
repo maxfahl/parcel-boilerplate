@@ -85,8 +85,8 @@ html
 
 
         > .tabs
-            flex: 1 0 auto
-            //flex: .85 0 auto
+            //flex: 1 0 auto
+            flex: .85 0 auto
             display: flex
             flex-direction: column
 
@@ -163,7 +163,7 @@ html
         > .controls
             position: relative
             margin-top: pixel-to-vw(60px)
-            //flex: .15 0 auto
+            flex: .15 0 auto
             padding: pixel-to-vw(60px) 0
 
             > .pane
@@ -181,6 +181,7 @@ html
                 transition: opacity 200ms ease-out
 
                 > .row
+                    position: relative
                     display: inline-flex
 
                     > .control-button
@@ -196,10 +197,13 @@ html
                                 fill: $color-yellow
 
                 &.movies
+                    //margin-bottom: pixel-to-vw(60px)
+                    //height: pixel-to-vw(240px)
                     > .row
                         > .play-pause
                             height: pixel-to-vw(120px)
                             width: pixel-to-vw(120px)
+                            transform: translateY(pixel-to-vw(-90px))
 
                             > div
                                 position: absolute
@@ -213,6 +217,16 @@ html
                                 &.visible
                                     opacity: 1
                                     pointer-events: none
+
+                        > .loop-button
+                            position: absolute
+                            left: 50%
+                            bottom: pixel-to-vw(-90px)
+                            margin: 0
+                            transform: translateX(-50%)
+                            //&, > svg
+                            //    height: pixel-to-vw(60px)
+                            //    width: pixel-to-vw(60px)
 
                 &.visible
                     opacity: 0.5
