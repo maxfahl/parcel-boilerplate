@@ -4,7 +4,6 @@
 @import "partials/functions"
 @import "partials/fonts"
 
-
 @include normalize()
 
 *
@@ -49,19 +48,20 @@ html
         pointer-events: none
 
         > .disconnected-message
-            z-index: 10
+            z-index: 99
             position: absolute
             top: 0
             left: 0
             width: 100%
             height: 100%
             padding-bottom: pixel-to-vw(240px)
-            background-color: #242423
-            color: #FFFFFF
+            background-color: $color-grey-dark
             font-size: $font-size-lg
             align-items: center
             justify-content: center
             display: none
+            user-select: auto
+            pointer-events: auto !important
 
         &.disconnected
             > .disconnected-message
@@ -91,7 +91,7 @@ html
                     justify-content: center
                     text-align: center
                     cursor: pointer
-                    border-bottom: pixel-to-vw(4px) solid #242423
+                    border-bottom: pixel-to-vw(4px) solid $color-yellow
                     transition: border-bottom 200ms ease-out
 
                     &.active
@@ -100,7 +100,7 @@ html
             > .content
                 position: relative
                 flex: 1 0 auto
-                background-color: rgba(58, 55, 53)
+                background-color: $color-grey
 
                 > .list
                     position: absolute
@@ -125,12 +125,12 @@ html
                         padding: 0 pixel-to-vw(30px)
                         height: pixel-to-vw(120px)
                         background-color: transparent
-                        border-bottom: pixel-to-vw(2px) solid #242423
+                        border-bottom: pixel-to-vw(2px) solid $color-grey-dark
                         cursor: pointer
                         transition: background-color 200ms ease-out
 
                         &.selected
-                            background-color: lighten(rgba(58, 55, 53), 10)
+                            background-color: $color-grey-light
 
                 > .reload-button
                     position: absolute
@@ -145,7 +145,7 @@ html
 
                     svg
                         path
-                            fill: rgb(251, 188, 21)
+                            fill: $color-yellow
 
                     &.loading
                         animation: rotate 1000ms infinite ease-out
@@ -183,7 +183,7 @@ html
 
                         svg
                             path
-                                fill: rgb(251, 188, 21)
+                                fill: $color-yellow
 
                 &.movies
                     > .row
