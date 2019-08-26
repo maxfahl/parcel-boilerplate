@@ -162,6 +162,8 @@ export class App {
 		selectedButton.classList.add('active');
 		list.classList.add('visible');
 
+		this.mReloadButton.style.display = wantedType !== 'blocks' ? 'block' : 'none';
+
 		this.mContainer.querySelectorAll('.controls .pane').forEach(pane => pane.classList.remove('visible'));
 		this.mContainer.querySelector(`.controls .pane.${ wantedType }`).classList.add('visible');
 

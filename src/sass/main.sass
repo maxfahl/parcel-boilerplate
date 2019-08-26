@@ -27,8 +27,10 @@ html
     font-size: $font-size-md
     //letter-spacing: 0.025em
     line-height: $font-line-height-base
-    color: #E8EDDF
-    outline: none
+    color: #FFFFFF
+    outline: none !important
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+    -webkit-focus-ring-color: rgba(0, 0, 0, 0)
 
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
@@ -55,7 +57,7 @@ html
             height: 100%
             padding-bottom: pixel-to-vw(240px)
             background-color: #242423
-            color: #E8EDDF
+            color: #FFFFFF
             font-size: $font-size-lg
             align-items: center
             justify-content: center
@@ -67,6 +69,7 @@ html
 
         &.connected
             pointer-events: auto
+
             > .disconnected-message
                 display: none
 
@@ -97,7 +100,7 @@ html
             > .content
                 position: relative
                 flex: 1 0 auto
-                background-color: #333533
+                background-color: rgba(58, 55, 53)
 
                 > .list
                     position: absolute
@@ -123,27 +126,29 @@ html
                         height: pixel-to-vw(120px)
                         background-color: transparent
                         border-bottom: pixel-to-vw(2px) solid #242423
-                        //font-size: $font-size-sm
                         cursor: pointer
                         transition: background-color 200ms ease-out
 
                         &.selected
-                            background-color: lighten(#333533, 10)
+                            background-color: lighten(rgba(58, 55, 53), 10)
 
                 > .reload-button
                     position: absolute
-                    z-index: 99
+                    z-index: 2
                     bottom: pixel-to-vw(30px)
                     right: pixel-to-vw(30px)
                     cursor: pointer
+
                     &, svg
                         height: pixel-to-vw(60px)
                         width: pixel-to-vw(60px)
+
                     svg
                         path
                             fill: rgb(251, 188, 21)
+
                     &.loading
-                        animation: rotate 1000ms infinite linear
+                        animation: rotate 1000ms infinite ease-out
 
         > .controls
             position: relative
@@ -171,7 +176,6 @@ html
                     > .control-button
                         position: relative
                         margin: 0 pixel-to-vw(30px)
-                        outline: none
 
                         > div, svg
                             height: pixel-to-vw(120px)
@@ -180,7 +184,7 @@ html
                         svg
                             path
                                 fill: rgb(251, 188, 21)
-                //&.presentations
+
                 &.movies
                     > .row
                         > .play-pause
@@ -193,9 +197,7 @@ html
                                 left: 0
                                 height: pixel-to-vw(120px)
                                 width: pixel-to-vw(120px)
-                                outline: none
                                 opacity: 0
-                                //pointer-events: none
                                 transition: opacity 200ms ease-out
 
                                 &.visible
