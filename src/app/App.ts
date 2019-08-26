@@ -9,7 +9,7 @@ export class App {
 	private mTabButtons: HTMLDivElement[];
 	private mLists: HTMLDivElement[];
 	private mControlPanes: HTMLDivElement[];
-	// private mEnablePaneTimeout: number;
+	private mEnablePaneTimeout: number;
 	private mPresentationStepperButtons: HTMLDivElement[];
 	private mMoviesJumpButtons: HTMLDivElement[];
 	private mMoviesPlayPauseButtons: HTMLDivElement[];
@@ -176,7 +176,6 @@ export class App {
 	}
 
 	private startBlocks(): void {
-		console.log('Start blocks');
 		this.mPubSub.set(
 			`Network.${ this.mTarget }.program`,
 			'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --no-startup-window --disable-features=TranslateUI --autoplay-policy=no-user-gesture-required --app=http://10.0.1.157:9080/spot'
@@ -196,10 +195,10 @@ export class App {
 		let listItemToSelect = className ? this.mContainer.querySelector<HTMLDivElement>(`.tabs .content .${ className }`) : null;
 		if (this.mLastSelectedItem && this.mLastSelectedItem !== listItemToSelect)
 			this.mLastSelectedItem.classList.remove('selected');
-		// if (this.mEnablePaneTimeout) {
-		// 	window.clearTimeout(this.mEnablePaneTimeout);
-		// 	this.mEnablePaneTimeout = undefined;
-		// }
+		if (this.mEnablePaneTimeout) {
+			window.clearTimeout(this.mEnablePaneTimeout);
+			this.mEnablePaneTimeout = undefined;
+		}
 		this.mControlPanes.forEach(pane => pane.classList.remove('enabled'));
 		if (listItemToSelect) {
 			listItemToSelect.classList.add('selected');
@@ -207,11 +206,11 @@ export class App {
 			this.onTabButtonClick(inPresentations ? this.mTabButtons[0] : this.mTabButtons[1]);
 			const paneToEnable = inPresentations ? this.mControlPanes[0] : this.mControlPanes[1];
 			// if (inPresentations) {
-			paneToEnable.classList.add('enabled');
+			// 	paneToEnable.classList.add('enabled');
 			// } else {
-			// 	this.mEnablePaneTimeout = window.setTimeout(() => {
-			// 		paneToEnable.classList.add('enabled');
-			// 	}, 2500)
+			this.mEnablePaneTimeout = window.setTimeout(() => {
+				paneToEnable.classList.add('enabled');
+			}, 1000)
 			// }
 		} else if (this.mFirstMarkCurrentListItem) {
 			this.mFirstMarkCurrentListItem = false;
@@ -272,7 +271,6 @@ export class App {
 
 	private onMovieJumpButtonClick(button: HTMLDivElement): void {
 		let next = button.classList.contains('forward');
-		console.log('JUMP', next);
 		this.mPubSub.set(`Network.${ this.mTarget }.keyDown`, next ? 'alt+VK_S' : 'alt+VK_A');
 	}
 
