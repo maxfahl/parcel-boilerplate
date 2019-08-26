@@ -22,7 +22,7 @@ export class App {
 	private mLastSelectedItem: HTMLDivElement;
 	private mCurrentFile: string;
 	private mCurrentProgram: string;
-	private mFirstMarkCurrentListItem = true;
+	// private mFirstMarkCurrentListItem = true;
 
 	constructor() {
 		this.init();
@@ -33,14 +33,14 @@ export class App {
 		this.mPubSub = new PubSubPeer();
 
 		this.mContainer = document.querySelector('#wrapper .inner');
-		// this.mContainer.querySelector('.disconnected-message').innerHTML = `<p>Lost connection to ${ this.mTarget }</p>`;
+
 		this.mTabButtons = Array.prototype.slice.call(
 			this.mContainer.querySelectorAll<HTMLDivElement>('.tabs .buttons .button')
 		);
 		this.mTabButtons.forEach(buttonEl => {
 			buttonEl.addEventListener(
 				'click',
-				(e) => this.onTabButtonClick(<HTMLDivElement>e.target, true)
+				(e) => this.onTabButtonClick(<HTMLDivElement>e.target /*, true*/)
 			);
 		});
 		this.mLists = Array.prototype.slice.call(
@@ -71,7 +71,6 @@ export class App {
 		this.mReloadButton.addEventListener('click', this.onReloadButtonClick.bind(this))
 
 		this.subscribe();
-		// this.onTabButtonClick(this.mTabButtons[0]);
 	}
 
 	private subscribe() {
@@ -128,7 +127,6 @@ export class App {
 				dataReceived: (currentFile: string) => {
 					this.mCurrentFile = currentFile;
 					this.markCurrentListItem();
-
 				}
 			}
 		);
@@ -137,6 +135,12 @@ export class App {
 			{
 				dataReceived: (currentProgram: string) => {
 					this.mCurrentProgram = currentProgram;
+					const isChrome = this.mCurrentProgram.indexOf('chrome.exe') !== -1;
+					if (isChrome) {
+						this.mContainer.classList.add('blocks-override');
+					} else {
+						this.mContainer.classList.remove('blocks-override');
+					}
 				}
 			}
 		);
@@ -151,8 +155,8 @@ export class App {
 	}
 
 	private onTabButtonClick(
-		selectedButton: HTMLDivElement,
-		userClick: boolean = false
+		selectedButton: HTMLDivElement//,
+		// userClick: boolean = false
 	): void {
 		this.mTabButtons.forEach(buttonEl => buttonEl.classList.remove('active'));
 		this.mLists.forEach(buttonEl => buttonEl.classList.remove('visible'));
@@ -167,25 +171,25 @@ export class App {
 		this.mContainer.querySelectorAll('.controls .pane').forEach(pane => pane.classList.remove('visible'));
 		this.mContainer.querySelector(`.controls .pane.${ wantedType }`).classList.add('visible');
 
-		if (userClick && wantedType === 'blocks') {
-			this.startBlocksIfNotRunning(true);
-		}
+		// if (userClick && wantedType === 'blocks') {
+		// 	this.startBlocksIfNotRunning(true);
+		// }
 	}
 
-	private startBlocksIfNotRunning(force: boolean = false): void {
-		if (force || this.mCurrentProgram.indexOf('chrome.exe') === -1) {
-			if (force || this.mCurrentFile)
-				this.setCurrentFile('');
-			this.startBlocks();
-		}
-	}
-
-	private startBlocks(): void {
-		this.mPubSub.set(
-			`Network.${ this.mTarget }.program`,
-			'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --no-startup-window --disable-features=TranslateUI --autoplay-policy=no-user-gesture-required --app=http://10.0.1.157:9080/spot'
-		);
-	}
+	// private startBlocksIfNotRunning(force: boolean = false): void {
+	// 	if (force || this.mCurrentProgram.indexOf('chrome.exe') === -1) {
+	// 		if (force || this.mCurrentFile)
+	// 			this.setCurrentFile('');
+	// 		this.startBlocks();
+	// 	}
+	// }
+	//
+	// private startBlocks(): void {
+	// 	this.mPubSub.set(
+	// 		`Network.${ this.mTarget }.program`,
+	// 		'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe|C:\\Program Files (x86)\\Google\\Chrome\\Application|--kiosk --no-startup-window --disable-features=TranslateUI --autoplay-policy=no-user-gesture-required --app=http://10.0.1.157:9080/spot'
+	// 	);
+	// }
 
 	private markCurrentListItem() {
 		let className: string;
@@ -210,17 +214,14 @@ export class App {
 			this.mLastSelectedItem = listItemToSelect;
 			this.onTabButtonClick(inPresentations ? this.mTabButtons[0] : this.mTabButtons[1]);
 			const paneToEnable = inPresentations ? this.mControlPanes[0] : this.mControlPanes[1];
-			// if (inPresentations) {
-			// 	paneToEnable.classList.add('enabled');
-			// } else {
 			this.mEnablePaneTimeout = window.setTimeout(() => {
 				paneToEnable.classList.add('enabled');
 			}, 1000)
-			// }
-		} else if (this.mFirstMarkCurrentListItem) {
-			this.mFirstMarkCurrentListItem = false;
-			this.onTabButtonClick(this.mTabButtons[2]);
 		}
+		// else if (this.mFirstMarkCurrentListItem) {
+		// 	this.mFirstMarkCurrentListItem = false;
+		// 	this.onTabButtonClick(this.mTabButtons[2]);
+		// }
 	}
 
 	private populateList(
@@ -255,8 +256,8 @@ export class App {
 		this.mPubSub.set(`Realm.Main.variable.${ this.mTarget }MoviePlaying.value`, false);
 
 		if (this.mCurrentFile === fileName) {
-			// this.setCurrentFile('');
-			this.startBlocksIfNotRunning();
+			this.setCurrentFile('');
+			// this.startBlocksIfNotRunning();
 		} else {
 			this.setCurrentFile(fileName);
 			this.resetMoviesPlayPauseButton();

@@ -47,8 +47,7 @@ html
         flex-direction: column
         pointer-events: none
 
-        > .disconnected-message
-            z-index: 99
+        > .disconnected-message, > .blocks-override
             position: absolute
             top: 0
             left: 0
@@ -63,6 +62,12 @@ html
             user-select: auto
             pointer-events: auto !important
 
+        > .blocks-override
+            z-index: 98
+
+        > .disconnected-message
+            z-index: 99
+
         &.disconnected
             > .disconnected-message
                 display: flex
@@ -72,6 +77,11 @@ html
 
             > .disconnected-message
                 display: none
+
+        &.blocks-override
+            .blocks-override
+                display: flex
+                pointer-events: auto
 
 
         > .tabs
@@ -91,7 +101,7 @@ html
                     justify-content: center
                     text-align: center
                     cursor: pointer
-                    border-bottom: pixel-to-vw(4px) solid $color-yellow
+                    border-bottom: pixel-to-vw(4px) solid $color-grey-dark
                     transition: border-bottom 200ms ease-out
 
                     &.active
