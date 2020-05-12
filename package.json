@@ -14,19 +14,21 @@
 	"description": "A simple boilerplate for parcel based web apps using TypeScript and Sass.",
 	"main": "lib/index.js",
 	"scripts": {
-		"prestart": "rm -rf dist && mkdir dist && cp -R ./src/static dist/static",
-		"start": "parcel serve --out-dir dist --no-hmr src/index.html",
-		"prebuild": "rm -rf dist && mkdir dist && cp -R ./src/static dist/static",
-		"build": "cross-env NODE_ENV=production parcel build --no-source-maps --out-dir dist --public-url . src/index.html",
-		"watch": "parcel watch src/index.html",
-		"predeploy": "npm run build"
+		"presastart": "rm -rf dist && mkdir dist && cp -R ./src/static dist/static",
+		"sastart": "parcel serve --out-dir dist --no-hmr src/index.html",
+		"presabuild": "rm -rf dist && mkdir dist && cp -R ./src/static dist",
+		"sabuild": "cross-env NODE_ENV=production parcel build --no-source-maps --out-dir dist --public-url . src/index.html",
+
+		"prestart": "rm -rf ../../public/apps/APPNAME && mkdir ../../public/apps/APPNAME && cp -R ./src/static ../../public/apps/APPNAME/static",
+		"start": "parcel serve --out-dir ../../public/apps/APPNAME --public-url /public/apps/APPNAME --no-hmr src/index.html",
+		"prebuild": "rm -rf ../../public/apps/APPNAME && mkdir ../../public/apps/APPNAME && cp -R ./src/static ../../public/apps/APPNAME/static",
+		"build": "cross-env NODE_ENV=production parcel build --no-source-maps --out-dir ../../public/apps/APPNAME --public-url /public/apps/APPNAME src/index.html"
 	},
 	"devDependencies": {
-		"cross-env": "^5.2.0",
-		"gh-pages": "^1.2.0",
-		"node-sass": "^4.7.2",
-		"parcel-bundler": "^1.9.7",
-		"typescript": "^2.9.2"
+		"cross-env": "^7.0.2",
+		"node-sass": "^4.14.1",
+		"parcel-bundler": "^1.12.4",
+		"typescript": "^3.8.3"
 	},
 	"dependencies": {
 		"normalize-scss": "^7.0.1"
